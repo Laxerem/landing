@@ -1,0 +1,128 @@
+.card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  padding: 28px 28px 24px;
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+  transition: border-color 0.4s, background 0.4s;
+  transform-style: preserve-3d;
+  will-change: transform;
+  display: block;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    480px circle at var(--mx, 50%) var(--my, 0%),
+    rgba(207, 211, 220, 0.1),
+    transparent 42%
+  );
+  opacity: 0;
+  transition: opacity 0.45s;
+  pointer-events: none;
+}
+
+.card:hover {
+  border-color: var(--hairline-strong);
+  background: var(--surface-strong);
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.lang {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  color: var(--fg-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 11px;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+}
+
+.langDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.arrow {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--hairline);
+  display: grid;
+  place-items: center;
+  color: var(--fg-soft);
+  flex-shrink: 0;
+  transition: transform 0.4s var(--ease), border-color 0.4s, color 0.4s, background 0.4s;
+}
+
+.arrow svg {
+  width: 16px;
+  height: 16px;
+}
+
+.card:hover .arrow {
+  transform: rotate(-45deg);
+  border-color: transparent;
+  background: var(--silver-grad);
+  color: #0a0a0c;
+}
+
+.name {
+  margin: 0 0 10px;
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--fg);
+}
+
+.desc {
+  margin: 0;
+  color: var(--fg-muted);
+  font-size: 15px;
+  line-height: 1.55;
+  min-height: 46px;
+}
+
+.meta {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--fg-faint);
+}
+
+.stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.stars svg {
+  width: 12px;
+  height: 12px;
+}

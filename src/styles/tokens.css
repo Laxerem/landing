@@ -1,0 +1,52 @@
+:root {
+  /* — поверхности — */
+  --bg: #060608;
+  --bg-2: #0a0a0d;
+  --surface: rgba(20, 21, 26, 0.55);
+  --surface-strong: rgba(24, 25, 31, 0.82);
+
+  /* — текст — */
+  --fg: #eef0f4;
+  --fg-soft: #b9bdc8;
+  --fg-muted: #7b8090;
+  --fg-faint: #565b69;
+
+  /* — границы — */
+  --hairline: rgba(168, 172, 184, 0.14);
+  --hairline-strong: rgba(180, 184, 196, 0.26);
+
+  /* — серебро — */
+  --silver: #cfd3dc;
+  --silver-bright: #f3f5f9;
+  --silver-deep: #8b909d;
+  --silver-grad: linear-gradient(180deg, #f6f7fa 0%, #cfd3dc 42%, #9a9fae 100%);
+
+  /* — типографика — */
+  --font: 'Onest', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* — геометрия — */
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --maxw: 1180px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* — секции — */
+  --section-pad-v: 96px;
+  --section-pad-h: 28px;
+
+  /* — spacing — */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+
+  /* — статус — */
+  --green-status: #6fe39b;
+}

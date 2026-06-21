@@ -1,0 +1,7 @@
+.silver {
+  background: var(--silver-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}

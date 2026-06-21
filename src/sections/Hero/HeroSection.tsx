@@ -1,0 +1,24 @@
+import { HeroCopy } from './HeroCopy';
+import { HeroPhoto } from './HeroPhoto';
+import styles from './HeroSection.module.css';
+import type { HeroContent } from '../../types/content';
+
+interface HeroSectionProps {
+  data: HeroContent;
+}
+
+export function HeroSection({ data }: HeroSectionProps) {
+  return (
+    <section className={styles.hero} id="top">
+      <div className={styles.shell}>
+        <HeroCopy data={data} />
+        <HeroPhoto src={data.photoSrc} alt={`${data.firstName} ${data.lastName}`} />
+      </div>
+
+      <div className={styles.scrollHint} aria-hidden="true">
+        <span>scroll</span>
+        <span className={styles.line} />
+      </div>
+    </section>
+  );
+}

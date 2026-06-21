@@ -1,0 +1,49 @@
+.name {
+  margin: 26px 0 0;
+  font-size: clamp(48px, 9vw, 120px);
+  line-height: 0.96;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.silver {
+  background: linear-gradient(176deg, #ffffff 0%, #dfe2e9 36%, #9aa0b0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+.shine {
+  position: relative;
+  display: inline-block;
+}
+
+.shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.85) 50%,
+    transparent 65%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 250% 100%;
+  animation: shine 6.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes shine {
+  0%, 18% { background-position: 180% 0; }
+  55%, 100% { background-position: -80% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shine::after {
+    animation: none;
+  }
+}

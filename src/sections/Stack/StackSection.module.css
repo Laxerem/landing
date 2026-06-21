@@ -1,0 +1,51 @@
+.block {
+  padding: var(--section-pad-v) 0;
+}
+
+.shell {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--section-pad-h);
+}
+
+.head {
+  margin-bottom: 54px;
+  max-width: 720px;
+}
+
+.heading {
+  margin: 18px 0 0;
+  font-size: clamp(30px, 4.6vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.sub {
+  margin: 18px 0 0;
+  color: var(--fg-muted);
+  font-size: 18px;
+  max-width: 600px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .block {
+    padding: 72px 0;
+  }
+
+  .shell {
+    padding: 0 20px;
+  }
+}

@@ -1,0 +1,76 @@
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.role {
+  margin-top: 26px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--fg-soft);
+  letter-spacing: 0.01em;
+}
+
+.roleSep {
+  color: var(--fg-faint);
+}
+
+.tagline {
+  margin-top: 28px;
+  max-width: 560px;
+  font-size: clamp(19px, 2.4vw, 24px);
+  color: var(--fg-soft);
+  line-height: 1.5;
+  letter-spacing: -0.015em;
+}
+
+.cta {
+  margin-top: 40px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.btnPrimary,
+.btnGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 22px;
+  border-radius: 999px;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.35s var(--ease), background 0.3s, border-color 0.3s, box-shadow 0.3s;
+  will-change: transform;
+}
+
+.btnPrimary {
+  background: var(--silver-grad);
+  color: #0a0a0c;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.55) inset, 0 10px 30px rgba(0, 0, 0, 0.45);
+  font-weight: 600;
+}
+
+.btnPrimary:hover {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 14px 40px rgba(0, 0, 0, 0.55);
+}
+
+.btnGhost {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--fg);
+  border-color: var(--hairline-strong);
+}
+
+.btnGhost:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(200, 204, 214, 0.42);
+}
