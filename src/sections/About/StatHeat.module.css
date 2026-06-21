@@ -1,0 +1,100 @@
+.root {
+  position: relative;
+  min-height: 410px;
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  grid-auto-rows: auto;
+  gap: 6px;
+  padding: 6px;
+}
+
+.cell {
+  aspect-ratio: 1;
+  border-radius: 3px;
+  background: rgba(168, 172, 184, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(168, 172, 184, 0.04);
+  animation-name: shimmer;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  will-change: opacity;
+}
+
+.l1 { background: rgba(180, 186, 200, 0.16); }
+.l2 { background: rgba(195, 200, 212, 0.34); }
+.l3 { background: rgba(214, 218, 228, 0.58); }
+.l4 { background: rgba(238, 240, 245, 0.9); box-shadow: 0 0 10px rgba(214, 218, 228, 0.35); }
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* left scrim so stats text is readable */
+.scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    rgba(6, 6, 8, 0.94) 0%,
+    rgba(6, 6, 8, 0.82) 34%,
+    rgba(6, 6, 8, 0.34) 64%,
+    rgba(6, 6, 8, 0) 100%
+  );
+}
+
+.rows {
+  position: absolute;
+  inset: 0;
+  padding: 28px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.num {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  background: var(--silver-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--fg-muted);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell { animation: none; opacity: 0.85; }
+}
+
+@media (max-width: 520px) {
+  .root { min-height: 320px; }
+  .rows { padding: 22px 20px; }
+  .num { font-size: 38px; }
+  .row { gap: 12px; }
+}

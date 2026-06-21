@@ -15,10 +15,13 @@ export interface Fact {
   small?: string;
 }
 
+export interface AboutStat { n: number; suffix?: string; label: string; }
+
 export interface AboutContent {
   lead: string;
   body: string[];
   facts: Fact[];
+  stats: AboutStat[];
 }
 
 export interface SkillGroup {
@@ -42,6 +45,9 @@ export interface ProjectItem {
   url: string;
   tags: string[];
   stars: number;
+  images?: string[];
+  bullets?: string[];
+  about?: string;
 }
 
 export interface ProjectsContent {

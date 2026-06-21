@@ -1,3 +1,4 @@
+import { HeroBG } from '../../features/BackgroundCanvas';
 import { HeroCopy } from './HeroCopy';
 import { HeroPhoto } from './HeroPhoto';
 import styles from './HeroSection.module.css';
@@ -10,11 +11,11 @@ interface HeroSectionProps {
 export function HeroSection({ data }: HeroSectionProps) {
   return (
     <section className={styles.hero} id="top">
-      <div className={styles.shell}>
+      <HeroBG />
+      <div className={styles.inner}>
         <HeroCopy data={data} />
         <HeroPhoto src={data.photoSrc} alt={`${data.firstName} ${data.lastName}`} />
       </div>
-
       <div className={styles.scrollHint} aria-hidden="true">
         <span>scroll</span>
         <span className={styles.line} />

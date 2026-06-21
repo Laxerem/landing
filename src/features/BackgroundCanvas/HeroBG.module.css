@@ -1,0 +1,35 @@
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.plasma,
+.dots {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.plasma {
+  z-index: 0;
+  background: #060608;
+}
+
+.dots {
+  z-index: 1;
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    /* top: smooth blend with transparent nav */
+    linear-gradient(180deg, rgba(6, 6, 8, 0.55) 0%, transparent 14%, transparent 64%, rgba(6, 6, 8, 0.96) 100%),
+    radial-gradient(140% 80% at 50% -10%, transparent 40%, rgba(6, 6, 8, 0.55) 100%);
+}

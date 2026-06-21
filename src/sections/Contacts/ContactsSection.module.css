@@ -1,12 +1,39 @@
 .contact {
+  position: relative;
   text-align: center;
-  padding: 120px 0 90px;
+  min-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 90px 0;
+  overflow: hidden;
+}
+
+/* full-bleed veil for smooth top/bottom edges */
+.veil {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 6, 8, 0.7) 0%,
+    transparent 14%,
+    transparent 84%,
+    rgba(6, 6, 8, 0.85) 100%
+  );
 }
 
 .shell {
   max-width: var(--maxw);
   margin: 0 auto;
   padding: 0 var(--section-pad-h);
+  position: relative;
+  z-index: 2;
 }
 
 .heading {
@@ -14,7 +41,7 @@
   font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 0.98;
-  margin: 22px auto 0;
+  margin: 14px auto 0;
   max-width: 12ch;
 }
 
@@ -53,7 +80,9 @@
   letter-spacing: -0.01em;
   cursor: pointer;
   border: 1px solid transparent;
-  transition: transform 0.35s var(--ease), background 0.3s, border-color 0.3s, box-shadow 0.3s;
+  transition: transform 0.35s var(--ease), background 0.3s, border-color 0.3s,
+    color 0.3s, box-shadow 0.3s;
+  will-change: transform;
 }
 
 .btnPrimary {
@@ -78,12 +107,45 @@
   border-color: rgba(200, 204, 214, 0.42);
 }
 
+/* email copy button */
+.btnCopy { font-variant-numeric: tabular-nums; }
+.btnCopy span { transition: opacity 0.25s var(--ease); }
+.btnCopy svg { transition: transform 0.4s var(--ease); }
+
+.copied {
+  border-color: rgba(140, 220, 170, 0.55) !important;
+  color: oklch(0.86 0.12 155) !important;
+  background: rgba(120, 210, 160, 0.1) !important;
+}
+
+.copied svg {
+  transform: scale(1.15);
+  animation: copyPop 0.4s var(--ease);
+}
+
+@keyframes copyPop {
+  0%   { transform: scale(0.4); opacity: 0; }
+  60%  { transform: scale(1.25); }
+  100% { transform: scale(1.15); opacity: 1; }
+}
+
 @media (max-width: 520px) {
   .contact {
-    padding: 80px 0 60px;
+    min-height: auto;
+    padding-block: 80px;
   }
 
-  .shell {
-    padding: 0 20px;
+  .shell { padding: 0 20px; }
+
+  .links { gap: 12px; }
+
+  .links .btnPrimary,
+  .links .btnGhost {
+    flex: 1 1 auto;
+    justify-content: center;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copied svg { animation: none; }
 }

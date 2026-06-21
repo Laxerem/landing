@@ -1,0 +1,73 @@
+.cover {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-bottom: 1px solid var(--hairline);
+  background:
+    radial-gradient(130% 120% at 82% 6%, color-mix(in oklab, var(--c, #888) 40%, transparent), transparent 56%),
+    linear-gradient(168deg, #0d0e12 0%, #08080b 100%);
+}
+
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s var(--ease);
+}
+
+/* parent :hover escalated via card wrapper in ProjectCard */
+
+.placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.04) 0 1px,
+    transparent 1px 13px
+  );
+  mask-image: radial-gradient(120% 120% at 80% 0%, #000 30%, transparent 75%);
+}
+
+.orb {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 30%,
+    color-mix(in oklab, var(--c) 85%, #fff) 0%,
+    var(--c) 55%,
+    transparent 75%
+  );
+  filter: blur(2px);
+  opacity: 0.85;
+  transition: transform 0.6s var(--ease);
+}
+
+.tag {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--fg-faint);
+  text-transform: lowercase;
+}
+
+.count {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--fg-soft);
+  background: rgba(10, 10, 13, 0.5);
+  padding: 3px 8px;
+  border-radius: 100px;
+  backdrop-filter: blur(4px);
+}

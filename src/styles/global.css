@@ -40,36 +40,44 @@ img {
   display: block;
 }
 
-canvas#gl {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 0;
-  background: #060608;
-}
-
-canvas#dots {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.veil {
-  position: fixed;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background: radial-gradient(140% 80% at 50% -10%, transparent 40%, rgba(6, 6, 8, 0.55) 100%);
+/* section-scoped canvas positioning */
+section {
+  position: relative;
 }
 
 #root {
   position: relative;
-  z-index: 3;
+  z-index: 0;
+}
+
+/* mid wrapper: About + Stack + Projects sections share a fog background */
+.mid {
+  position: relative;
+  z-index: 0;
+}
+
+.mid > section {
+  position: relative;
+  z-index: 1;
+}
+
+/* top gradient to blend hero bottom with mid top */
+.mid::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 460px;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 6, 8, 0.96) 0%,
+    rgba(6, 6, 8, 0.55) 40%,
+    transparent 100%
+  );
 }
 
 /* scroll reveal */

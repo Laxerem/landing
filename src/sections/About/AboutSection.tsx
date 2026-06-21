@@ -1,18 +1,7 @@
 import { Eyebrow } from '../../components/ui';
+import { StatHeat } from './StatHeat';
 import styles from './AboutSection.module.css';
-import type { AboutContent, Fact } from '../../types/content';
-
-function FactCard({ fact }: { fact: Fact }) {
-  return (
-    <div className={styles.fact}>
-      <div className={styles.factKey}>{fact.k}</div>
-      <div className={styles.factVal}>
-        {fact.v}
-        {fact.small && <small className={styles.factSmall}>{fact.small}</small>}
-      </div>
-    </div>
-  );
-}
+import type { AboutContent } from '../../types/content';
 
 interface AboutSectionProps {
   data: AboutContent;
@@ -35,10 +24,8 @@ export function AboutSection({ data }: AboutSectionProps) {
               ))}
             </div>
           </div>
-          <div className={['reveal', styles.facts].join(' ')} style={{ ['--d' as string]: '0.1s' }}>
-            {data.facts.map((f) => (
-              <FactCard key={f.k} fact={f} />
-            ))}
+          <div className={['reveal'].join(' ')} style={{ ['--d' as string]: '0.05s' }}>
+            <StatHeat stats={data.stats} />
           </div>
         </div>
       </div>

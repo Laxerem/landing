@@ -1,0 +1,81 @@
+.bird {
+  position: relative;
+  width: 130px;
+  margin: 18px auto 0;
+  /* reveal handles opacity/transform, but we need custom enter behaviour:
+     bird flies in from above instead of default translateY(34px) */
+  opacity: 0;
+  transform: translateY(-40px) scale(0.85);
+  transition: opacity 0.9s var(--ease), transform 1.1s var(--ease);
+  pointer-events: none;
+}
+
+/* override .reveal default enter transform */
+.bird:global(.in) {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.inner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  animation: birdFloat 6.5s ease-in-out infinite;
+  transform-origin: 50% 65%;
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 44px rgba(0, 0, 0, 0.55));
+  animation: 1.4s linear infinite;
+  will-change: opacity;
+}
+
+.frameUp   { animation-name: flapUp; }
+.frameMid  { animation-name: flapMid; }
+.frameDown { animation-name: flapDown; }
+
+@keyframes flapUp {
+  0%   { opacity: 1; }
+  25%  { opacity: 0; }
+  75%  { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes flapMid {
+  0%   { opacity: 0; }
+  25%  { opacity: 1; }
+  50%  { opacity: 0; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes flapDown {
+  0%   { opacity: 0; }
+  25%  { opacity: 0; }
+  50%  { opacity: 1; }
+  75%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes birdFloat {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  50%       { transform: translateY(-15px) rotate(2deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inner { animation: none; }
+  .frame { animation: none; }
+  .frameUp  { opacity: 1; }
+  .frameMid { opacity: 0; }
+  .frameDown { opacity: 0; }
+}
+
+@media (max-width: 520px) {
+  .bird { width: 104px; }
+}

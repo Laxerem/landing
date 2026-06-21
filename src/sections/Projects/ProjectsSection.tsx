@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Eyebrow } from '../../components/ui';
 import { ProjectCard } from './ProjectCard';
+import { ProjectModal } from './ProjectModal';
 import styles from './ProjectsSection.module.css';
-import type { ProjectsContent } from '../../types/content';
+import type { ProjectsContent, ProjectItem } from '../../types/content';
 
 interface ProjectsSectionProps {
   data: ProjectsContent;
@@ -16,6 +18,8 @@ function IconArrow() {
 }
 
 export function ProjectsSection({ data }: ProjectsSectionProps) {
+  const [active, setActive] = useState<ProjectItem | null>(null);
+
   return (
     <section className={styles.block} id="projects">
       <div className={styles.shell}>
@@ -35,10 +39,18 @@ export function ProjectsSection({ data }: ProjectsSectionProps) {
         </div>
         <div className={styles.grid}>
           {data.items.map((project, i) => (
-            <ProjectCard key={project.id} project={project} index={i} />
+            <ProjectCard
+              key={project.id}
+              project={project}
+              index={i}
+              onOpen={setActive}
+            />
           ))}
         </div>
       </div>
+      {active && (
+        <ProjectModal project={active} onClose={() => setActive(null)} />
+      )}
     </section>
   );
 }

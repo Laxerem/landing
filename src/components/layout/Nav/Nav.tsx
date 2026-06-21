@@ -11,6 +11,7 @@ function IconGitHub() {
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -19,24 +20,54 @@ export function Nav() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
+  const close = () => setOpen(false);
+
+  const navClass = [
+    styles.nav,
+    scrolled || open ? styles.scrolled : '',
+    open ? styles.navOpen : '',
+  ].filter(Boolean).join(' ');
+
   return (
-    <nav className={[styles.nav, scrolled ? styles.scrolled : ''].filter(Boolean).join(' ')}>
-      <a href="#top" className={styles.brand}>
-        <span className={styles.logo}>
-          <img src="/laxerem_logo.png" alt="Laxerem" />
-        </span>
-        Laxerem
+    <nav className={navClass}>
+      {/* mobile: bird logo in center */}
+      <a href="#top" className={styles.brandM} aria-label="Наверх" onClick={close}>
+        <img src="/newLogoTransparent.png" alt="" />
       </a>
 
+      {/* desktop: invisible spacer for grid balance */}
+      <div className={styles.spacer} aria-hidden="true" />
+
+      {/* desktop: centered nav links with logo in the middle */}
       <div className={styles.links}>
-        <a href="#about">Обо мне</a>
-        <a href="#stack">Стек</a>
-        <a href="#projects">Проекты</a>
-        <a href="#contact">Контакты</a>
+        <div className={[styles.navGroup, styles.navGroupLeft].join(' ')}>
+          <a href="#about">Обо мне</a>
+          <a href="#stack">Стек</a>
+        </div>
+        <a href="#top" className={styles.navLogo} aria-label="Наверх">
+          <img src="/newLogoTransparent.png" alt="" />
+        </a>
+        <div className={[styles.navGroup, styles.navGroupRight].join(' ')}>
+          <a href="#projects">Проекты</a>
+          <a href="#contact">Контакты</a>
+        </div>
       </div>
 
+      {/* desktop: GitHub button */}
       <a
-        className={[styles.btn, styles.ghReveal].join(' ')}
+        className={[styles.ghReveal].join(' ')}
         href="https://github.com/Laxerem"
         target="_blank"
         rel="noreferrer"
@@ -45,6 +76,37 @@ export function Nav() {
         <IconGitHub />
         <span className={styles.ghLabel}>GitHub</span>
       </a>
+
+      {/* mobile: hamburger */}
+      <button
+        type="button"
+        className={[styles.burger, open ? styles.burgerOpen : ''].filter(Boolean).join(' ')}
+        onClick={() => setOpen((o) => !o)}
+        aria-label={open ? 'Закрыть меню' : 'Открыть меню'}
+        aria-expanded={open}
+      >
+        <span /><span /><span />
+      </button>
+
+      {/* mobile: slide-down menu */}
+      <div className={[styles.menu, open ? styles.menuOpen : ''].filter(Boolean).join(' ')}>
+        <a href="#about" onClick={close}>Обо мне</a>
+        <a href="#stack" onClick={close}>Стек</a>
+        <a href="#projects" onClick={close}>Проекты</a>
+        <a href="#contact" onClick={close}>Контакты</a>
+        <a
+          className={styles.menuGh}
+          href="https://github.com/Laxerem"
+          target="_blank"
+          rel="noreferrer"
+          onClick={close}
+        >
+          <IconGitHub /> GitHub
+        </a>
+      </div>
+
+      {/* mobile: backdrop scrim */}
+      <div className={styles.scrim} onClick={close} aria-hidden="true" />
     </nav>
   );
 }
