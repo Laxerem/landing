@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './Nav.module.css';
+import logoSrc from '../../../assets/newLogoTransparent.png';
 
 function IconGitHub() {
   return (
@@ -44,7 +45,7 @@ export function Nav() {
     <nav className={navClass}>
       {/* mobile: bird logo in center */}
       <a href="#top" className={styles.brandM} aria-label="Наверх" onClick={close}>
-        <img src="/newLogoTransparent.png" alt="" />
+        <img src={logoSrc} alt="" />
       </a>
 
       {/* desktop: invisible spacer for grid balance */}
@@ -57,7 +58,7 @@ export function Nav() {
           <a href="#stack">Стек</a>
         </div>
         <a href="#top" className={styles.navLogo} aria-label="Наверх">
-          <img src="/newLogoTransparent.png" alt="" />
+          <img src={logoSrc} alt="" />
         </a>
         <div className={[styles.navGroup, styles.navGroupRight].join(' ')}>
           <a href="#projects">Проекты</a>

@@ -1,4 +1,5 @@
 import type { SiteContent } from '../types/content';
+import meSrc from '../assets/me.png';
 
 export const content: SiteContent = {
   hero: {
@@ -10,7 +11,7 @@ export const content: SiteContent = {
     roleStack: 'C# · .NET',
     tagline:
       '«Дайте цель — получите результат» Пишу серверную логику, проектирую API и довожу задачи до рабочего продукта.',
-    photoSrc: '/me.png',
+    photoSrc: meSrc,
   },
 
   about: {
