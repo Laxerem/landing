@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { useImageLoad } from '../../hooks/useImageLoad';
 import styles from './ProjectModal.module.css';
 import type { ProjectItem } from '../../types/content';
 
@@ -24,6 +25,30 @@ function IconStar() {
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="m12 2 2.95 6.6 7.05.62-5.34 4.7 1.6 6.98L12 17.77 5.74 20.9l1.6-6.98L2 9.22l7.05-.62z" />
     </svg>
+  );
+}
+
+interface GallerySlideProps {
+  url: string;
+  active: boolean;
+  dir: number;
+  label: string;
+}
+
+function GallerySlide({ url, active, dir, label }: GallerySlideProps) {
+  const { loaded, loading } = useImageLoad(url);
+  return (
+    <div
+      role="img"
+      aria-label={label}
+      className={[styles.galImg, active ? styles.galImgActive : ''].filter(Boolean).join(' ')}
+      style={{
+        ['--dir' as string]: active ? dir : 0,
+        backgroundImage: loaded ? `url("${url}")` : undefined,
+      }}
+    >
+      {active && loading && <div className={styles.shimmer} />}
+    </div>
   );
 }
 
@@ -74,16 +99,13 @@ function ProjectGallery({ project }: GalleryProps) {
       style={{ ['--c' as string]: project.langColor }}
     >
       <div className={styles.galStage}>
-        {imgs.map((src, i) => (
-          <div
-            key={src + i}
-            role="img"
-            aria-label={`${project.name} — фото ${i + 1}`}
-            className={[styles.galImg, i === idx ? styles.galImgActive : ''].filter(Boolean).join(' ')}
-            style={{
-              ['--dir' as string]: i === idx ? dir : 0,
-              backgroundImage: `url("${src}")`,
-            }}
+        {imgs.map((url, i) => (
+          <GallerySlide
+            key={url + i}
+            url={url}
+            active={i === idx}
+            dir={dir}
+            label={`${project.name} — фото ${i + 1}`}
           />
         ))}
       </div>

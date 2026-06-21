@@ -45,6 +45,7 @@ export interface ProjectItem {
   url: string;
   tags: string[];
   stars: number;
+  coverImageUrl?: string;
   images?: string[];
   bullets?: string[];
   about?: string;

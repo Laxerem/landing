@@ -20,6 +20,7 @@
 .modal {
   position: relative;
   width: min(1080px, 100%);
+  aspect-ratio: 16/10;
   max-height: calc(100dvh - 48px);
   display: flex;
   flex-direction: row;
@@ -94,6 +95,25 @@
 }
 
 /* gallery */
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to   { background-position:  200% 0; }
+}
+
+.shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.03) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
 .galStage {
   position: absolute;
   inset: 0;
@@ -385,7 +405,7 @@
   .overlay, .modal { animation: none; }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1000px) {
   .overlay {
     padding: 12px;
     align-items: flex-start;
@@ -394,6 +414,7 @@
   .modal {
     flex-direction: column;
     width: min(560px, 100%);
+    aspect-ratio: auto;
     max-height: calc(100dvh - 24px);
   }
 

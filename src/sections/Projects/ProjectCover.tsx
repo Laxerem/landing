@@ -1,3 +1,4 @@
+import { useImageLoad } from '../../hooks/useImageLoad';
 import styles from './ProjectCover.module.css';
 import type { ProjectItem } from '../../types/content';
 
@@ -6,19 +7,25 @@ interface ProjectCoverProps {
 }
 
 export function ProjectCover({ project }: ProjectCoverProps) {
-  const imgs = project.images ?? [];
-  const hasImage = imgs.length > 0;
+  const { loaded, loading } = useImageLoad(project.coverImageUrl);
+  const galleryCount = project.images?.length ?? 0;
+  const hasUrl = !!project.coverImageUrl;
 
   return (
     <div
-      className={[styles.cover, !hasImage ? styles.placeholder : ''].filter(Boolean).join(' ')}
+      className={[styles.cover, !hasUrl || (!loaded && !loading) ? styles.placeholder : ''].filter(Boolean).join(' ')}
       style={{ ['--c' as string]: project.langColor }}
     >
-      {hasImage ? (
+      {hasUrl ? (
         <>
-          <img src={imgs[0]} alt={`Превью ${project.name}`} />
-          {imgs.length > 1 && (
-            <span className={styles.count}>{imgs.length} фото</span>
+          {loading && <span className={styles.shimmer} />}
+          <img
+            src={project.coverImageUrl}
+            alt={`Превью ${project.name}`}
+            style={{ opacity: loaded ? 1 : 0 }}
+          />
+          {loaded && galleryCount > 1 && (
+            <span className={styles.count}>{galleryCount} фото</span>
           )}
         </>
       ) : (

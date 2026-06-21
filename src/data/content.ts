@@ -77,6 +77,8 @@ export const content: SiteContent = {
         url: 'https://github.com/NeurNet/Neur.Server.Net',
         tags: ['ASP.NET Core', 'PostgreSQL', 'Docker', 'Ollama'],
         stars: 1,
+        coverImageUrl: 'https://i.ibb.co/sdShH0d6/neurnet-preview.png',
+        images: [],
         about:
           'Серверная часть платформы NeurNet. Принимает запросы от клиентов, аутентифицирует пользователей через LDAP, маршрутизирует запросы к Ollama и возвращает потоковый ответ. Реализована трёхуровневая ролевая модель: администратор, преподаватель, студент — каждый со своими правами на токены и доступ к моделям.',
         bullets: [
@@ -84,7 +86,6 @@ export const content: SiteContent = {
           'Аутентификация по LDAP через сторонний сервис колледжа',
           'Система токенов: начисление, списание, передача между ролями',
           'Чистая архитектура: API / Application / Core / Infrastructure разделены по слоям',
-          'Docker Compose + CI через GitHub Actions',
         ],
       },
       {
@@ -97,6 +98,8 @@ export const content: SiteContent = {
         url: 'https://github.com/DiskayHub/DiskayBot',
         tags: ['Telegram Bot API', '.NET', 'Redis'],
         stars: 3,
+        coverImageUrl: 'https://i.ibb.co/QFHQqqLQ/diskay-preview.png',
+        images: [],
         about:
           'Бот помогает студентам колледжа получать расписание прямо в Telegram. Пользователь один раз выбирает курс и группу, после чего может получать актуальное расписание в один клик — или посмотреть расписание любой другой группы. Сейчас активно используется: более 100 зарегистрированных пользователей, 10–15 человек в регулярной активности. Бот работает в связке с отдельным CRUD-сервисом DiskayMemory.',
         bullets: [
@@ -117,14 +120,15 @@ export const content: SiteContent = {
         url: "",
         tags: ['ASP.NET Core', 'PostgreSQL', 'Redis', 'ORS'],
         stars: 0,
+        coverImageUrl: '',
+        images: [],
         about:
           'Серверная часть Wayzo — приложения для планирования автопоездок. Сервис строит маршрут из точки A в точку B через OpenRouteService (на базе OSM), парсит актуальные цены на топливо из открытых источников и считает примерную стоимость поездки. Хранит пользователей, их автомобили и сохранённые маршруты.',
         bullets: [
           'Интеграция с OpenRouteService для построения маршрутов',
           'Парсинг цен на топливо и расчёт стоимости поездки',
           'JWT-аутентификация и авторизация пользователей',
-          'Вход по номеру телефона через flash call (zvonok.com)',
-          'PostgreSQL + Redis, стек: ASP.NET Core / EF Core',
+          'Вход по номеру телефона через flash call (zvonok.com)'
         ],
       },
       {
@@ -137,11 +141,12 @@ export const content: SiteContent = {
         url: 'https://github.com/Laxerem/RollingPanda.Web',
         tags: ['React', 'TypeScript', 'Vite'],
         stars: 0,
+        coverImageUrl: '',
+        images: [],
         about:
           'Лендинг для студенческой геймстудии Колледжа цифровых технологий. Сайт представляет студию, показывает разработанные игры и содержит контактную информацию. Доступен по адресу rollingpanda.it-college.ru.',
         bullets: [
           'Публичный лендинг, работающий в продакшне',
-          'React + TypeScript + Vite',
           'Презентация игр и команды студии',
         ],
       },
@@ -190,8 +195,8 @@ export const content: SiteContent = {
         id: 'c3',
         kind: 'email',
         label: 'Email',
-        href: 'mailto:laxerem@yandex.ru',
-        handle: 'laxerem@yandex.ru',
+        href: 'mailto:Laxerem@yandex.ru',
+        handle: 'Laxerem@yandex.ru',
       },
     ],
   },
