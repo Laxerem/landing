@@ -20,10 +20,11 @@ function IconTelegram() {
 }
 
 interface HeroCopyProps {
-  data: HeroContent;
+  data: HeroContent,
+  link: string
 }
 
-export function HeroCopy({ data }: HeroCopyProps) {
+export function HeroCopy({ data, link }: HeroCopyProps) {
   return (
     <div className={styles.copy}>
       <div className="reveal">
@@ -43,7 +44,7 @@ export function HeroCopy({ data }: HeroCopyProps) {
           Смотреть проекты <IconArrow />
         </a>
         <a
-          href="https://t.me/laxerem"
+          href={link}
           target="_blank"
           rel="noreferrer"
           className={styles.btnGhost}

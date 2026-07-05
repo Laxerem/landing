@@ -173,10 +173,6 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
 
         <div className={styles.content}>
           <div className={styles.head}>
-            <span className={styles.langBadge}>
-              <span className={styles.langDot} style={{ background: project.langColor }} />
-              {project.lang}
-            </span>
             <h3>{project.name}</h3>
           </div>
 

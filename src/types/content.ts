@@ -15,7 +15,7 @@ export interface Fact {
   small?: string;
 }
 
-export interface AboutStat { n: number; suffix?: string; label: string; }
+export interface AboutStat { n: number; suffix?: string; label: string; source?: 'github-repos'; }
 
 export interface AboutContent {
   lead: string;
