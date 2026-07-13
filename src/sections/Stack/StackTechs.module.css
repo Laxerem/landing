@@ -1,0 +1,18 @@
+.techs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  font-size: 16px;
+  color: var(--fg-soft);
+  line-height: 1.75;
+}
+
+.lead {
+  color: var(--silver-bright);
+  font-weight: 700;
+}
+
+.dot {
+  color: var(--fg-faint);
+  margin: 0 11px;
+}

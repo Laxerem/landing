@@ -40,8 +40,8 @@ export default function App() {
         <div className="mid">
           <MidBG />
           <AboutSection data={about} />
-          <StackSection data={content.stack} />
           <ProjectsSection data={projects} />
+          <StackSection data={content.stack} />
         </div>
         <ContactsSection data={content.contacts} />
       </main>

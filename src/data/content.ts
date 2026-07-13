@@ -35,32 +35,26 @@ export const content: SiteContent = {
   },
 
   stack: {
-    groups: [
+    core: {
+      label: 'Ядро',
+      name: '.NET',
+      desc: 'Основа. Сервисы, API, бизнес-логика.',
+      lead: ['C#', 'ASP.NET Core'],
+      rest: ['REST API', 'Entity Framework Core', 'JWT'],
+    },
+    satellites: [
       {
-        n: '01',
-        title: 'Бэкенд',
-        sub: 'Основа. Сервисы, API, бизнес-логика.',
-        lead: ['C#', '.NET', 'ASP.NET Core'],
-        rest: ['REST API', 'Entity Framework Core', 'JWT'],
-      },
-      {
-        n: '02',
         title: 'Данные и инфраструктура',
-        sub: 'Хранение, кэш, доставка.',
         lead: ['PostgreSQL'],
         rest: ['SQL', 'Redis', 'Docker', 'Linux', 'CI/CD'],
       },
       {
-        n: '03',
         title: 'Дополнительно',
-        sub: 'Чем закрываю задачи рядом с бэкендом.',
         lead: ['Node JS', 'React'],
         rest: ['TypeScript', 'Telegram Bot API'],
       },
       {
-        n: '04',
         title: 'Инструменты',
-        sub: 'Каждодневное окружение.',
         lead: ['Git'],
         rest: ['GitHub', 'Rider / VS', 'Postman', 'Swagger'],
       },
@@ -183,8 +177,8 @@ export const content: SiteContent = {
         id: 'c1',
         kind: 'telegram',
         label: 'Telegram',
-        href: 'https://t.me/laxerem',
-        handle: '@Laxerem',
+        href: 'https://t.me/laxwork',
+        handle: '@laxwork',
       },
       {
         id: 'c2',

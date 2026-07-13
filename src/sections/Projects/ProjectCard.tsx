@@ -1,15 +1,6 @@
-import { useRef } from 'react';
 import { ProjectCover } from './ProjectCover';
 import styles from './ProjectCard.module.css';
 import type { ProjectItem } from '../../types/content';
-
-function IconExpand() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M9 4H4v5M15 20h5v-5M20 9V4h-5M4 15v5h5" />
-    </svg>
-  );
-}
 
 function IconArrow() {
   return (
@@ -19,62 +10,40 @@ function IconArrow() {
   );
 }
 
+function IconStar() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="m12 2 2.95 6.6 7.05.62-5.34 4.7 1.6 6.98L12 17.77 5.74 20.9l1.6-6.98L2 9.22l7.05-.62z" />
+    </svg>
+  );
+}
+
 interface ProjectCardProps {
   project: ProjectItem;
-  index: number;
   onOpen: (project: ProjectItem) => void;
 }
 
-export function ProjectCard({ project, index, onOpen }: ProjectCardProps) {
-  const ref = useRef<HTMLButtonElement>(null);
-
-  const onMove = (e: React.MouseEvent) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const x = e.clientX - r.left;
-    const y = e.clientY - r.top;
-    el.style.setProperty('--mx', x + 'px');
-    el.style.setProperty('--my', y + 'px');
-    const rx = (y / r.height - 0.5) * -4;
-    const ry = (x / r.width - 0.5) * 4;
-    el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-  };
-
-  const reset = () => {
-    if (ref.current) ref.current.style.transform = '';
-  };
-
+export function ProjectCard({ project, onOpen }: ProjectCardProps) {
   return (
     <button
-      ref={ref}
       type="button"
-      className={['reveal', styles.card].join(' ')}
-      style={{ ['--d' as string]: `${(index % 2) * 0.08}s` }}
-      onMouseMove={onMove}
-      onMouseLeave={reset}
+      className={styles.card}
       onClick={() => onOpen(project)}
       aria-label={`Открыть описание проекта ${project.name}`}
     >
       <ProjectCover project={project} />
       <div className={styles.body}>
-        <div className={styles.top}>
-          <span className={styles.lang}>
-            <span className={styles.langDot} style={{ background: project.langColor }} />
-            {project.lang}
-          </span>
-          <span className={styles.arrow}>
-            <IconExpand />
-          </span>
-        </div>
         <h3 className={styles.name}>{project.name}</h3>
         <p className={styles.desc}>{project.description}</p>
-        <div className={styles.meta}>
-          {project.tags.map((t) => (
-            <span key={t}>{t}</span>
-          ))}
-          <span className={styles.hint}>
-            Подробнее <IconArrow />
+        <div className={styles.foot}>
+          {project.stars > 0 && (
+            <span className={styles.stars}>
+              <IconStar /> {project.stars}
+              <span className={styles.starsLbl}>на GitHub</span>
+            </span>
+          )}
+          <span className={styles.see}>
+            Смотреть <IconArrow />
           </span>
         </div>
       </div>

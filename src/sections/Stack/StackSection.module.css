@@ -28,15 +28,200 @@
   max-width: 600px;
 }
 
-.grid {
+/* — раскладка «ядро + окружение» в стилистике слоёв — */
+.mix {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
+  grid-template-columns: 1.02fr 1fr;
+  gap: 0 46px;
+  align-items: stretch;
+}
+
+.el {
+  position: relative;
+  overflow: hidden;
+  padding: 30px 6px 30px 34px;
+}
+
+.el > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* серебряная спинка слоя (статичная) */
+.el::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  border-radius: 2px;
+  z-index: 1;
+  background: linear-gradient(180deg, transparent, var(--silver-deep), transparent);
+  opacity: 0.4;
+}
+
+/* амбиентное тёмно-серебристое свечение */
+.el::after {
+  content: '';
+  position: absolute;
+  inset: -35%;
+  opacity: 0;
+  pointer-events: none;
+  filter: blur(8px);
+  transition: opacity 1.3s var(--ease);
+  background:
+    radial-gradient(38% 42% at 32% 30%, rgba(207, 211, 220, 0.11), transparent 70%),
+    radial-gradient(44% 48% at 72% 74%, rgba(90, 100, 122, 0.16), transparent 72%),
+    radial-gradient(60% 60% at 50% 50%, rgba(20, 21, 26, 0.35), transparent 75%);
+}
+
+.el:hover::after {
+  opacity: 1;
+  animation: sheen 10s ease-in-out infinite alternate;
+}
+
+.core::after {
+  opacity: 0.62;
+  animation: sheen 12s ease-in-out infinite alternate;
+}
+
+.core:hover::after {
+  opacity: 1;
+}
+
+@keyframes sheen {
+  0% { transform: translate3d(-4%, -3%, 0) rotate(0deg) scale(1); }
+  100% { transform: translate3d(5%, 4%, 0) rotate(7deg) scale(1.06); }
+}
+
+/* луч по границе — мягкое свечение едет по контуру при наведении */
+.beam {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 1.6s var(--ease);
+  padding: 1px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+.beam::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(243, 245, 249, 0.85), rgba(243, 245, 249, 0) 68%);
+  offset-path: border-box;
+  offset-distance: 0%;
+  offset-rotate: 0deg;
+  animation: beam-run 4s linear infinite;
+  animation-play-state: paused;
+}
+
+.el:hover .beam {
+  opacity: 1;
+}
+
+.el:hover .beam::before {
+  animation-play-state: running;
+}
+
+@keyframes beam-run {
+  to { offset-distance: 100%; }
+}
+
+/* левая колонка — ядро */
+.core {
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+.coreLabel {
+  font-size: 12.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  font-weight: 600;
+}
+
+.coreName {
+  margin: 16px 0 8px;
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  background: var(--silver-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.coreDesc {
+  color: var(--fg-soft);
+  font-size: 15.5px;
+  max-width: 360px;
+  margin: 0 0 24px;
+}
+
+/* правая колонка — окружение, стопка слоёв */
+.sats {
+  display: flex;
+  flex-direction: column;
+}
+
+.sat {
+  border-top: 1px solid var(--hairline);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sats .sat:last-child {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.satTitle {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--silver-bright);
+  margin-bottom: 11px;
 }
 
 @media (max-width: 860px) {
-  .grid {
+  .mix {
     grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .coreName {
+    font-size: 46px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .el::after,
+  .core::after {
+    animation: none;
+  }
+
+  .beam::before {
+    animation: none;
   }
 }
 
@@ -47,5 +232,9 @@
 
   .shell {
     padding: 0 20px;
+  }
+
+  .head {
+    margin-bottom: 40px;
   }
 }

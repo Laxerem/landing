@@ -24,16 +24,23 @@ export interface AboutContent {
   stats: AboutStat[];
 }
 
-export interface SkillGroup {
-  n: string;
+export interface StackCore {
+  label: string;
+  name: string;
+  desc: string;
+  lead: string[];
+  rest: string[];
+}
+
+export interface StackSatellite {
   title: string;
-  sub: string;
   lead: string[];
   rest: string[];
 }
 
 export interface StackContent {
-  groups: SkillGroup[];
+  core: StackCore;
+  satellites: StackSatellite[];
 }
 
 export interface ProjectItem {

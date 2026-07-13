@@ -47,21 +47,113 @@
   border-color: rgba(200, 204, 214, 0.42);
 }
 
-.grid {
+/* — слайдер: вмещает две карточки, перелистывание плавно сдвигает трек — */
+.slider {
+  position: relative;
+}
+
+.viewport {
+  overflow: hidden;
+  margin-inline: -4px;
+  padding: 4px;
+}
+
+.track {
+  display: flex;
+  gap: 22px;
+  transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.track > * {
+  flex: 0 0 calc((100% - 22px) / 2);
+  min-width: 0;
+}
+
+/* — навигация слайдера — */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 26px;
+}
+
+.arrowBtn {
+  width: 46px;
+  height: 46px;
+  flex: none;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  place-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  color: var(--fg-soft);
+  backdrop-filter: blur(8px);
+  transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1), color 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.arrowBtn:hover:not(:disabled) {
+  background: var(--surface-strong);
+  color: var(--fg);
+  border-color: var(--hairline-strong);
+}
+
+.arrowBtn:disabled {
+  opacity: 0.32;
+  cursor: default;
+}
+
+.arrowBtn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-left: 2px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: var(--hairline-strong);
+  cursor: pointer;
+  transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1), background 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dotOn {
+  width: 26px;
+  background: var(--silver);
+}
+
+.count {
+  margin-left: auto;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--fg-faint);
+  letter-spacing: 0.02em;
+}
+
+.count b {
+  color: var(--fg-soft);
+  font-weight: 600;
 }
 
 @media (max-width: 860px) {
-  .grid {
-    grid-template-columns: 1fr;
+  .head {
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
   }
 
-  .head {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
+  .track > * {
+    flex: 0 0 100%;
   }
 }
 

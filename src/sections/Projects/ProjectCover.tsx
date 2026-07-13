@@ -13,7 +13,7 @@ export function ProjectCover({ project }: ProjectCoverProps) {
 
   return (
     <div
-      className={[styles.cover, !hasUrl || (!loaded && !loading) ? styles.placeholder : ''].filter(Boolean).join(' ')}
+      className={styles.cover}
       style={{ ['--c' as string]: project.langColor }}
     >
       {hasUrl ? (
