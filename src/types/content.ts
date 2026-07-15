@@ -54,8 +54,8 @@ export interface ProjectItem {
   stars: number;
   coverImageUrl?: string;
   images?: string[];
-  bullets?: string[];
-  about?: string;
+  /** Тело статьи в модалке — сырой HTML (p, h3, ul/li, figure/img и т.д.), рендерится как есть. */
+  aboutHtml?: string;
 }
 
 export interface ProjectsContent {

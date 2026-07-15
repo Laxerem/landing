@@ -36,7 +36,6 @@ interface ProjectModalProps {
 
 export function ProjectModal({ project, onClose }: ProjectModalProps) {
   const [open, setOpen] = useState(false);
-  const coverUrl = project.coverImageUrl || project.images?.[0] || '';
 
   // Плавный выход: гасим панель, затем размонтируем.
   const requestClose = useCallback(() => {
@@ -76,24 +75,9 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
             <h2>{project.name}</h2>
           </div>
 
-          <div className={styles.article}>
-            {project.about && <p>{project.about}</p>}
-            {coverUrl && (
-              <figure>
-                <img src={coverUrl} alt={`Превью проекта ${project.name}`} />
-              </figure>
-            )}
-            {project.bullets && project.bullets.length > 0 && (
-              <>
-                <h3>Что внутри</h3>
-                <ul>
-                  {project.bullets.map((pt) => (
-                    <li key={pt}>{pt}</li>
-                  ))}
-                </ul>
-              </>
-            )}
-          </div>
+          {project.aboutHtml && (
+            <div className={styles.article} dangerouslySetInnerHTML={{ __html: project.aboutHtml }} />
+          )}
 
           <div className={styles.meta}>
             <span className={styles.metaLbl}>Стек</span>

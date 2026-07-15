@@ -55,13 +55,13 @@ export function Nav() {
       <div className={styles.links}>
         <div className={[styles.navGroup, styles.navGroupLeft].join(' ')}>
           <a href="#about">Обо мне</a>
-          <a href="#stack">Стек</a>
+          <a href="#projects">Проекты</a>
         </div>
         <a href="#top" className={styles.navLogo} aria-label="Наверх">
           <img src={logoSrc} alt="" />
         </a>
         <div className={[styles.navGroup, styles.navGroupRight].join(' ')}>
-          <a href="#projects">Проекты</a>
+          <a href="#stack">Стек</a>
           <a href="#contact">Контакты</a>
         </div>
       </div>
@@ -92,8 +92,8 @@ export function Nav() {
       {/* mobile: slide-down menu */}
       <div className={[styles.menu, open ? styles.menuOpen : ''].filter(Boolean).join(' ')}>
         <a href="#about" onClick={close}>Обо мне</a>
-        <a href="#stack" onClick={close}>Стек</a>
         <a href="#projects" onClick={close}>Проекты</a>
+        <a href="#stack" onClick={close}>Стек</a>
         <a href="#contact" onClick={close}>Контакты</a>
         <a
           className={styles.menuGh}
