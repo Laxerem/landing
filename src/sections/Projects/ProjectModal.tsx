@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './ProjectModal.module.css';
 import type { ProjectItem } from '../../types/content';
+import { trackGoal } from '../../services/analytics';
 
 function IconClose() {
   return (
@@ -44,6 +45,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
   }, [onClose]);
 
   useEffect(() => {
+    trackGoal('project_modal_open', { project: project.id, name: project.name });
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') requestClose(); };
     document.addEventListener('keydown', onKey);
     const prev = document.body.style.overflow;
@@ -54,6 +56,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
       document.body.style.overflow = prev;
       cancelAnimationFrame(raf);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requestClose]);
 
   return createPortal(
