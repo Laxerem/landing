@@ -40,6 +40,8 @@ export interface ShaderOpts {
   frag: string;
   uniforms?: string[];
   maxDpr?: number;
+  /** Множитель внутреннего разрешения холста относительно (ограниченного) DPR. */
+  scale?: number;
   onFail?: (canvas: HTMLCanvasElement) => void;
   draw: DrawFn;
 }
@@ -52,7 +54,7 @@ export function runShader(
 
   const isGl2 = !!opts.gl2;
   const gl: GL | null = isGl2
-    ? canvas.getContext('webgl2', { antialias: true, alpha: false })
+    ? canvas.getContext('webgl2', { antialias: false, alpha: false })
     : (canvas.getContext('webgl', { antialias: false, alpha: false }) as GL | null) ||
       (canvas.getContext('experimental-webgl') as GL | null);
 
@@ -84,10 +86,12 @@ export function runShader(
     u[n] = gl.getUniformLocation(prog, n);
   });
 
-  const dpr = Math.min(window.devicePixelRatio || 1, opts.maxDpr ?? 1.5);
+  const dpr = Math.min(window.devicePixelRatio || 1, opts.maxDpr ?? 1.5) * (opts.scale ?? 1);
   let W = 0, H = 0;
+  let needsResize = true;
 
   function resize() {
+    needsResize = false;
     const w = Math.max(1, Math.floor(canvas!.clientWidth * dpr));
     const h = Math.max(1, Math.floor(canvas!.clientHeight * dpr));
     if (w !== W || h !== H) {
@@ -103,7 +107,7 @@ export function runShader(
 
   function frame(now: number) {
     raf = 0;
-    resize();
+    if (needsResize) resize();
     const t = (now - start) / 1000;
     pointer.x += (pointer.tx - pointer.x) * 0.05;
     pointer.y += (pointer.ty - pointer.y) * 0.05;
@@ -116,12 +120,17 @@ export function runShader(
     if (!raf) raf = requestAnimationFrame(frame);
   }
 
+  function onResize() {
+    needsResize = true;
+    kick();
+  }
+
   let resizeObs: ResizeObserver | null = null;
   if (window.ResizeObserver) {
-    resizeObs = new ResizeObserver(kick);
+    resizeObs = new ResizeObserver(onResize);
     resizeObs.observe(canvas);
   }
-  window.addEventListener('resize', kick);
+  window.addEventListener('resize', onResize);
 
   const io = new IntersectionObserver(
     (es) => {
@@ -138,6 +147,6 @@ export function runShader(
     if (raf) cancelAnimationFrame(raf);
     io.disconnect();
     resizeObs?.disconnect();
-    window.removeEventListener('resize', kick);
+    window.removeEventListener('resize', onResize);
   };
 }

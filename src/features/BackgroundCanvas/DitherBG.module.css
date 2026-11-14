@@ -13,4 +13,5 @@
   height: 100%;
   display: block;
   background: #050506;
+  image-rendering: pixelated;
 }

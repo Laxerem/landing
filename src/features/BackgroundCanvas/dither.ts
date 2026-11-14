@@ -8,7 +8,6 @@ const FRAG = [
   'uniform float u_time;',
   'uniform vec3 u_waveColor;',
   'uniform float u_colorNum;',
-  'uniform float u_pixelSize;',
   'uniform float u_waveSpeed;',
   'uniform float u_waveFreq;',
   'uniform float u_waveAmp;',
@@ -56,9 +55,7 @@ const FRAG = [
   '  10.0/64.0,58.0/64.0,6.0/64.0,54.0/64.0,9.0/64.0,57.0/64.0,5.0/64.0,53.0/64.0,',
   '  42.0/64.0,26.0/64.0,38.0/64.0,22.0/64.0,41.0/64.0,25.0/64.0,37.0/64.0,21.0/64.0);',
   'void main(){',
-  '  vec2 uv=gl_FragCoord.xy/u_res.xy;',
-  '  vec2 nps=vec2(u_pixelSize)/u_res;',
-  '  vec2 uvPixel=nps*floor(uv/nps);',
+  '  vec2 uvPixel=floor(gl_FragCoord.xy)/u_res;',
   '  vec2 wuv=uvPixel-0.5;',
   '  wuv.x*=u_res.x/u_res.y;',
   '  float f=pattern(wuv);',
@@ -70,7 +67,7 @@ const FRAG = [
   '    f-=0.5*effect;',
   '  }',
   '  vec3 col=mix(vec3(0.0),u_waveColor,f);',
-  '  vec2 sc=floor(uv*u_res/u_pixelSize);',
+  '  vec2 sc=floor(gl_FragCoord.xy);',
   '  int x=int(mod(sc.x,8.0));',
   '  int y=int(mod(sc.y,8.0));',
   '  float threshold=bayer[y*8+x]-0.25;',
@@ -130,7 +127,6 @@ export function initDither(
     gl.uniform1f(u.u_time, t);
     gl.uniform3f(u.u_waveColor, waveColor[0], waveColor[1], waveColor[2]);
     gl.uniform1f(u.u_colorNum, colorNum);
-    gl.uniform1f(u.u_pixelSize, pixelSize);
     gl.uniform1f(u.u_waveSpeed, waveSpeed);
     gl.uniform1f(u.u_waveFreq, waveFrequency);
     gl.uniform1f(u.u_waveAmp, waveAmplitude);
@@ -143,8 +139,10 @@ export function initDither(
     gl2: true,
     frag: FRAG,
     maxDpr: 1.25,
+    // Один пиксель холста = один блок дизеринга; растягивается через image-rendering: pixelated.
+    scale: 1 / pixelSize,
     uniforms: [
-      'u_res', 'u_time', 'u_waveColor', 'u_colorNum', 'u_pixelSize',
+      'u_res', 'u_time', 'u_waveColor', 'u_colorNum',
       'u_waveSpeed', 'u_waveFreq', 'u_waveAmp', 'u_mouse', 'u_mouseOn', 'u_mouseRadius',
     ],
     onFail: (c) => {
