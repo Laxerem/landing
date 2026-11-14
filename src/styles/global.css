@@ -9,6 +9,7 @@
 }
 
 html {
+  color-scheme: only dark;
   scroll-behavior: smooth;
 }
 
