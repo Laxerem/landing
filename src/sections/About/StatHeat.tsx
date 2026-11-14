@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { CountUp } from './CountUp';
 import styles from './StatHeat.module.css';
 import type { AboutStat } from '../../types/content';
@@ -11,6 +11,18 @@ interface StatHeatProps {
 }
 
 export function StatHeat({ stats }: StatHeatProps) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(true);
+
+  // Вне экрана анимации ячеек ставятся на паузу — их всё равно не видно.
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver((es) => setVisible(es[0].isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   const cells = useMemo(() => {
     const lvl = () => {
       const r = Math.random();
@@ -28,8 +40,8 @@ export function StatHeat({ stats }: StatHeatProps) {
   }, []);
 
   return (
-    <div className={styles.root}>
-      <div className={styles.grid} aria-hidden="true">
+    <div className={styles.root} ref={rootRef}>
+      <div className={[styles.grid, visible ? '' : styles.paused].filter(Boolean).join(' ')} aria-hidden="true">
         {cells.map((c, i) => (
           <span
             key={i}
