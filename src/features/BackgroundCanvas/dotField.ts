@@ -1,10 +1,22 @@
 import { pointer } from './pointer';
-import { reduceMotion } from './glUtils';
+import { reduceMotion, VISIBILITY_MARGIN } from './glUtils';
 
 interface Particle {
   x: number; y: number; z: number;
   vx: number; vy: number; r: number;
+  /** Экранная позиция с учётом параллакса — пересчитывается каждый кадр. */
+  sx: number; sy: number;
+  fill: string;
 }
+
+// Прозрачность линии ≤ 0.16 и раньше округлялась до 3 знаков — заранее готовим все стили,
+// чтобы линии одной прозрачности рисовать одним stroke() и не собирать строки в каждом кадре.
+const LINE_ALPHA_STEPS = 1000;
+const MAX_LINE_ALPHA = 0.16;
+const LINE_STYLES = Array.from(
+  { length: Math.round(MAX_LINE_ALPHA * LINE_ALPHA_STEPS) + 1 },
+  (_, i) => `rgba(190,194,205,${(i / LINE_ALPHA_STEPS).toFixed(3)})`,
+);
 
 export function initDotField(canvas: HTMLCanvasElement | null): (() => void) | null {
   if (!canvas) return null;
@@ -33,6 +45,9 @@ export function initDotField(canvas: HTMLCanvasElement | null): (() => void) | n
         vx: (Math.random() - 0.5) * 0.12 * dpr,
         vy: (Math.random() - 0.5) * 0.12 * dpr,
         r: (z * 1.6 + 0.4) * dpr,
+        sx: 0,
+        sy: 0,
+        fill: `rgba(206,210,220,${(0.18 + z * 0.35).toFixed(3)})`,
       });
     }
   }
@@ -46,6 +61,9 @@ export function initDotField(canvas: HTMLCanvasElement | null): (() => void) | n
   build();
 
   const LINK = 130 * dpr;
+  const LINK2 = LINK * LINK;
+  // Отрезки линий, разложенные по индексу прозрачности: [x1, y1, x2, y2, ...].
+  const buckets: number[][] = LINE_STYLES.map(() => []);
 
   function frame() {
     raf = 0;
@@ -53,8 +71,7 @@ export function initDotField(canvas: HTMLCanvasElement | null): (() => void) | n
     const px = pointer.x * 26 * dpr;
     const py = -pointer.y * 26 * dpr;
 
-    for (let i = 0; i < particles.length; i++) {
-      const a = particles[i];
+    for (const a of particles) {
       if (!reduceMotion) {
         a.x += a.vx;
         a.y += a.vy;
@@ -63,30 +80,42 @@ export function initDotField(canvas: HTMLCanvasElement | null): (() => void) | n
       if (a.x > W + 20) a.x = -20;
       if (a.y < -20) a.y = H + 20;
       if (a.y > H + 20) a.y = -20;
+      a.sx = a.x + px * a.z;
+      a.sy = a.y + py * a.z;
+    }
 
-      const sx = a.x + px * a.z;
-      const sy = a.y + py * a.z;
-
+    for (const b of buckets) b.length = 0;
+    for (let i = 0; i < particles.length; i++) {
+      const a = particles[i];
       for (let k = i + 1; k < particles.length; k++) {
         const b = particles[k];
-        const bx = b.x + px * b.z;
-        const by = b.y + py * b.z;
-        const dx = sx - bx, dy = sy - by;
+        const dx = a.sx - b.sx, dy = a.sy - b.sy;
         const d2 = dx * dx + dy * dy;
-        if (d2 < LINK * LINK) {
-          const alpha = (1 - Math.sqrt(d2) / LINK) * 0.16 * Math.min(a.z, b.z);
-          ctx!.strokeStyle = `rgba(190,194,205,${alpha.toFixed(3)})`;
-          ctx!.lineWidth = 1;
-          ctx!.beginPath();
-          ctx!.moveTo(sx, sy);
-          ctx!.lineTo(bx, by);
-          ctx!.stroke();
+        if (d2 < LINK2) {
+          const alpha = (1 - Math.sqrt(d2) / LINK) * MAX_LINE_ALPHA * Math.min(a.z, b.z);
+          const idx = Math.round(alpha * LINE_ALPHA_STEPS);
+          if (idx > 0) buckets[idx].push(a.sx, a.sy, b.sx, b.sy);
         }
       }
+    }
 
+    ctx!.lineWidth = 1;
+    for (let idx = 1; idx < buckets.length; idx++) {
+      const seg = buckets[idx];
+      if (!seg.length) continue;
+      ctx!.strokeStyle = LINE_STYLES[idx];
       ctx!.beginPath();
-      ctx!.arc(sx, sy, a.r, 0, Math.PI * 2);
-      ctx!.fillStyle = `rgba(206,210,220,${(0.18 + a.z * 0.35).toFixed(3)})`;
+      for (let j = 0; j < seg.length; j += 4) {
+        ctx!.moveTo(seg[j], seg[j + 1]);
+        ctx!.lineTo(seg[j + 2], seg[j + 3]);
+      }
+      ctx!.stroke();
+    }
+
+    for (const a of particles) {
+      ctx!.beginPath();
+      ctx!.arc(a.sx, a.sy, a.r, 0, Math.PI * 2);
+      ctx!.fillStyle = a.fill;
       ctx!.fill();
     }
 
@@ -102,7 +131,7 @@ export function initDotField(canvas: HTMLCanvasElement | null): (() => void) | n
       visible = es[0].isIntersecting;
       if (visible) kick();
     },
-    { rootMargin: '140px' },
+    { rootMargin: VISIBILITY_MARGIN },
   );
   io.observe(canvas);
   kick();

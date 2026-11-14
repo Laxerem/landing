@@ -3,15 +3,16 @@ import { initFog } from './fog';
 import styles from './MidBG.module.css';
 
 export function MidBG() {
+  const areaRef = useRef<HTMLDivElement>(null);
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const cleanup = initFog(ref.current);
+    const cleanup = initFog(ref.current, areaRef.current);
     return () => cleanup?.();
   }, []);
 
   return (
-    <div className={styles.bg} aria-hidden="true">
+    <div ref={areaRef} className={styles.bg} aria-hidden="true">
       <canvas ref={ref} className={styles.fog} />
     </div>
   );

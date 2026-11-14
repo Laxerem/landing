@@ -4,6 +4,12 @@ export const reduceMotion =
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/**
+ * Анимация запускается, только когда холст реально виден. Отрицательный отступ нужен,
+ * чтобы холст, вплотную примыкающий к краю экрана, не считался видимым.
+ */
+export const VISIBILITY_MARGIN = '-1px';
+
 type GL = WebGLRenderingContext | WebGL2RenderingContext;
 
 function compile(gl: GL, type: number, src: string): WebGLShader {
@@ -42,6 +48,10 @@ export interface ShaderOpts {
   maxDpr?: number;
   /** Множитель внутреннего разрешения холста относительно (ограниченного) DPR. */
   scale?: number;
+  /** Ограничение частоты кадров анимации; resize и прокрутка (см. redrawOnScroll) перерисовывают сразу. */
+  maxFps?: number;
+  /** Перерисовывать на каждый кадр прокрутки — для холстов, чья картинка зависит от позиции скролла. */
+  redrawOnScroll?: boolean;
   onFail?: (canvas: HTMLCanvasElement) => void;
   draw: DrawFn;
 }
@@ -102,17 +112,25 @@ export function runShader(
   }
 
   const start = performance.now();
+  // Небольшой допуск, чтобы джиттер rAF не пропускал кадр, который уже пора рисовать.
+  const minFrameMs = opts.maxFps ? 1000 / opts.maxFps - 2 : 0;
+  let lastDraw = -Infinity;
+  let forceDraw = false;
   let raf = 0;
   let visible = false;
 
   function frame(now: number) {
     raf = 0;
-    if (needsResize) resize();
-    const t = (now - start) / 1000;
     pointer.x += (pointer.tx - pointer.x) * 0.05;
     pointer.y += (pointer.ty - pointer.y) * 0.05;
-    opts.draw(gl!, u, reduceMotion ? 8.0 : t, W, H);
-    (gl as WebGLRenderingContext).drawArrays(gl!.TRIANGLES, 0, 3);
+    if (forceDraw || needsResize || now - lastDraw >= minFrameMs) {
+      forceDraw = false;
+      lastDraw = now;
+      if (needsResize) resize();
+      const t = (now - start) / 1000;
+      opts.draw(gl!, u, reduceMotion ? 8.0 : t, W, H);
+      (gl as WebGLRenderingContext).drawArrays(gl!.TRIANGLES, 0, 3);
+    }
     if (visible && !reduceMotion) raf = requestAnimationFrame(frame);
   }
 
@@ -132,12 +150,21 @@ export function runShader(
   }
   window.addEventListener('resize', onResize);
 
+  // Пока холст виден, цикл rAF и так крутится — достаточно попросить нарисовать ближайший кадр.
+  // При reduceMotion цикла нет, поэтому кадр запрашивается явно.
+  function onScroll() {
+    if (!visible) return;
+    forceDraw = true;
+    if (reduceMotion) kick();
+  }
+  if (opts.redrawOnScroll) window.addEventListener('scroll', onScroll, { passive: true });
+
   const io = new IntersectionObserver(
     (es) => {
       visible = es[0].isIntersecting;
       if (visible) kick();
     },
-    { rootMargin: '140px' },
+    { rootMargin: VISIBILITY_MARGIN },
   );
   io.observe(canvas);
 
@@ -148,5 +175,6 @@ export function runShader(
     io.disconnect();
     resizeObs?.disconnect();
     window.removeEventListener('resize', onResize);
+    if (opts.redrawOnScroll) window.removeEventListener('scroll', onScroll);
   };
 }
