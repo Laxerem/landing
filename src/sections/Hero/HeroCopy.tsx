@@ -1,7 +1,8 @@
 import { StatusBadge } from '../../components/ui';
+import { ResumeButton } from '../../features/Resume';
 import { HeroName } from './HeroName';
 import styles from './HeroCopy.module.css';
-import type { HeroContent } from '../../types/content';
+import type { HeroContent, ResumeContent } from '../../types/content';
 
 function IconArrow() {
   return (
@@ -21,10 +22,11 @@ function IconTelegram() {
 
 interface HeroCopyProps {
   data: HeroContent,
+  resume: ResumeContent,
   link: string
 }
 
-export function HeroCopy({ data, link }: HeroCopyProps) {
+export function HeroCopy({ data, resume, link }: HeroCopyProps) {
   return (
     <div className={styles.copy}>
       <div className="reveal">
@@ -43,6 +45,7 @@ export function HeroCopy({ data, link }: HeroCopyProps) {
         <a href="#projects" className={styles.btnPrimary}>
           Смотреть проекты <IconArrow />
         </a>
+        <ResumeButton resume={resume} className={styles.btnGhost} />
         <a
           href={link}
           target="_blank"

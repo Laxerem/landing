@@ -91,8 +91,54 @@ export interface ContactsContent {
   items: ContactItem[];
 }
 
+export interface ResumeLink {
+  label: string;
+  href: string;
+}
+
+export interface ResumeProject {
+  title: string;
+  subtitle: string;
+  period: string;
+  link?: ResumeLink;
+  paragraphs: string[];
+}
+
+export interface ResumeJob {
+  company: string;
+  location: string;
+  role: string;
+  period: string;
+  duration: string;
+  projects: ResumeProject[];
+}
+
+export interface ResumeEducation {
+  institution: string;
+  specialty: string;
+  level: string;
+  year: string;
+}
+
+export interface ResumeContent {
+  fileUrl: string;
+  /** Имя файла, под которым резюме сохраняется при скачивании. */
+  downloadName: string;
+  updatedAt: string;
+  fullName: string;
+  position: string;
+  /** Короткие условия: город, занятость, формат работы. */
+  terms: string[];
+  about: string;
+  experienceTotal: string;
+  jobs: ResumeJob[];
+  skills: string[];
+  education: ResumeEducation[];
+}
+
 export interface SiteContent {
   hero: HeroContent;
+  resume: ResumeContent;
   about: AboutContent;
   stack: StackContent;
   projects: ProjectsContent;

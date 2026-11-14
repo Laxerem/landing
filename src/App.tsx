@@ -36,7 +36,7 @@ export default function App() {
     <>
       <Nav />
       <main>
-        <HeroSection data={content.hero} link={telegramLink} />
+        <HeroSection data={content.hero} resume={content.resume} link={telegramLink} />
         <div className="mid">
           <MidBG />
           <AboutSection data={about} />

@@ -1,0 +1,84 @@
+.project {
+  position: relative;
+  padding-left: var(--sp-6);
+}
+
+/* точка и линия таймлайна */
+.project::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--silver);
+  box-shadow: 0 0 0 4px rgba(207, 211, 220, 0.08);
+}
+
+.project::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 24px;
+  bottom: calc(-1 * var(--sp-8) + 8px);
+  width: 1px;
+  background: var(--hairline);
+}
+
+.project:last-child::after {
+  display: none;
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-1) var(--sp-4);
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--silver-bright);
+}
+
+.period {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--fg-faint);
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  font-size: 15px;
+  color: var(--fg);
+  line-height: 1.5;
+}
+
+.link {
+  display: inline-block;
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--fg-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--hairline-strong);
+  transition: color 0.4s var(--ease), text-decoration-color 0.4s var(--ease);
+}
+
+.link:hover {
+  color: var(--silver-bright);
+  text-decoration-color: var(--silver-bright);
+}
+
+.text {
+  margin: 12px 0 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--fg-soft);
+}
