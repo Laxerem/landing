@@ -1,18 +1,5 @@
-.updated {
-  /* высота и отступ справа — под кнопку закрытия модалки (40px), чтобы стоять с ней на одной линии */
-  display: flex;
-  align-items: center;
-  min-height: 40px;
-  padding-right: 48px;
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--fg-faint);
-}
-
 .name {
-  margin: var(--sp-2) 0 0;
+  margin: 0;
   font-size: clamp(28px, 4vw, 38px);
   font-weight: 700;
   line-height: 1.08;

@@ -11,7 +11,6 @@ export function ResumeDocument({ resume }: ResumeDocumentProps) {
   return (
     <div className={styles.doc}>
       <header>
-        <span className={styles.updated}>Резюме · обновлено {resume.updatedAt}</span>
         <h2 className={styles.name}>{resume.fullName}</h2>
         <p className={styles.position}>{resume.position}</p>
         <ul className={styles.terms}>

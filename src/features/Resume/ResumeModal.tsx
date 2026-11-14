@@ -58,9 +58,14 @@ export function ResumeModal({ resume, onClose }: ResumeModalProps) {
     >
       <div className={styles.scrim} onClick={requestClose} />
       <div className={styles.modal}>
-        <button className={styles.close} type="button" onClick={requestClose} aria-label="Закрыть">
-          <IconClose />
-        </button>
+        <div className={styles.bar}>
+          <span className={styles.updated}>
+            Резюме · <span className={styles.nowrap}>обновлено {resume.updatedAt}</span>
+          </span>
+          <button className={styles.close} type="button" onClick={requestClose} aria-label="Закрыть">
+            <IconClose />
+          </button>
+        </div>
 
         <div className={styles.scroll}>
           <ResumeDocument resume={resume} />
