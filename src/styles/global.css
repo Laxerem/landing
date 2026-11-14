@@ -86,6 +86,10 @@ section {
   transform: translateY(34px);
   transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
   transition-delay: var(--d, 0s);
+}
+
+/* слой нужен только до появления — после .in он лишь занимает видеопамять */
+.reveal:not(.in) {
   will-change: opacity, transform;
 }
 
