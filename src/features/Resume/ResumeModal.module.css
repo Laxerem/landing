@@ -79,7 +79,8 @@
 .scroll {
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 44px 40px var(--sp-8);
+  /* верх = top у .close, чтобы первая строка документа была на одной высоте с кнопкой */
+  padding: 16px 40px var(--sp-8);
 }
 
 .scroll::-webkit-scrollbar {
@@ -161,7 +162,7 @@
   }
 
   .scroll {
-    padding: 36px var(--sp-6) var(--sp-6);
+    padding: 16px var(--sp-6) var(--sp-6);
   }
 
   .foot {

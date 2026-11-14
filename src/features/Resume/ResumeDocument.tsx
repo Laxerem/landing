@@ -1,4 +1,5 @@
 import { ResumeProject } from './ResumeProject';
+import logoSrc from '../../assets/newLogoTransparent.webp';
 import styles from './ResumeDocument.module.css';
 import type { ResumeContent } from '../../types/content';
 
@@ -9,7 +10,7 @@ interface ResumeDocumentProps {
 export function ResumeDocument({ resume }: ResumeDocumentProps) {
   return (
     <div className={styles.doc}>
-      <header className={styles.header}>
+      <header>
         <span className={styles.updated}>Резюме · обновлено {resume.updatedAt}</span>
         <h2 className={styles.name}>{resume.fullName}</h2>
         <p className={styles.position}>{resume.position}</p>
@@ -19,6 +20,10 @@ export function ResumeDocument({ resume }: ResumeDocumentProps) {
           ))}
         </ul>
       </header>
+
+      <div className={styles.divider} aria-hidden="true">
+        <img src={logoSrc} alt="" draggable={false} />
+      </div>
 
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>Обо мне</h3>
