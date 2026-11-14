@@ -1,5 +1,5 @@
 import type { SiteContent } from '../types/content';
-import meSrc from '../assets/me.png';
+import meSrc from '../assets/me.webp';
 
 export const content: SiteContent = {
   hero: {

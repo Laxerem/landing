@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './Nav.module.css';
-import logoSrc from '../../../assets/newLogoTransparent.png';
+import logoSrc from '../../../assets/newLogoTransparent.webp';
 
 function IconGitHub() {
   return (

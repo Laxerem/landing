@@ -1,7 +1,7 @@
 import styles from './ContactBird.module.css';
-import logo0 from '../../assets/newLogoTransparent.png';
-import logo1 from '../../assets/newLogoTransparent1.png';
-import logo2 from '../../assets/newLogoTransparent2.png';
+import logo0 from '../../assets/newLogoTransparent.webp';
+import logo1 from '../../assets/newLogoTransparent1.webp';
+import logo2 from '../../assets/newLogoTransparent2.webp';
 
 export function ContactBird() {
   return (
